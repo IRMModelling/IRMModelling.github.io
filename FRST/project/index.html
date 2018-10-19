@@ -1851,9 +1851,11 @@
 				Projects.showProjectCharacteristics();
 				FormProject.init();
 				var clickInterval;
+				
 				var updateClick = function(fromIndex, direction, selector){
 					from[fromIndex] = Projects.updateRange(direction , from[fromIndex], selector);
 				}
+				
 				var clickAndHold = function(fromIndex, direction, selector){
 					updateClick(fromIndex, direction, selector);
 					clickInterval = setInterval(function() {updateClick(fromIndex, direction, selector)}, 90);
