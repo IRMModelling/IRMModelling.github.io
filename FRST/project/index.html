@@ -313,6 +313,12 @@
 																			<label lang="en" class="control-label">Number of FTEs to Cost <i class="fa fa-info-circle tooltips font-green" data-original-title="Provide the number of FTEs to cost per quarter"></i></label>
 																			<label lang="fr" class="control-label">Nombre d'ETP à dépenser <i class="fa fa-info-circle tooltips font-green" data-original-title="Veuillez indiquer le nombre d'ETP à dépenser par trimestre"></i></label>
 																			<input class="form-control" name="fteNumberCostPhase1" id="fteNumberCostPhase1" type="text">
+																			<button type = "button" class = "adjust-btn" id = "minus-1">																				
+																					<span>-</span>																				
+																			</button> 
+																			<button type = "button" class = "adjust-btn" id = "plus-1">
+																					<span>+</span>
+																			</button>
 																		</div>
 																	</div>
 																	<!--/span-->
@@ -368,6 +374,12 @@
 																			<label lang="en" class="control-label">Number of FTEs to Cost <i class="fa fa-info-circle tooltips font-green" data-original-title="Provide the number of FTEs to cost per quarter"></i></label>
 																			<label lang="fr" class="control-label">Nombre d'ETP à dépenser <i class="fa fa-info-circle tooltips font-green" data-original-title="Veuillez indiquer le nombre d'ETP à dépenser par trimestre"></i></label>
 																			<input class="form-control" name="fteNumberCostPhase2" id="fteNumberCostPhase2" type="text">
+																			<button type = "button" class = "adjust-btn" id = "minus-2">																				
+																					<span>-</span>																				
+																			</button>
+																			<button type = "button" class = "adjust-btn" id = "plus-2">
+																					<span>+</span>
+																			</button>
 																		</div>
 																	</div>
 																	<!--/span-->
@@ -387,6 +399,12 @@
 																			<label lang="en" class="control-label">Number of FTEs to Release <i class="fa fa-info-circle tooltips font-green" data-original-title="Provide the number of FTE to release per quarter"></i></label>
 																			<label lang="fr" class="control-label">Nombre d'ETP à libérer <i class="fa fa-info-circle tooltips font-green" data-original-title="Veuillez indiquer le nombre d'ETP à libérer par trimestre"></i></label>
 																			<input class="form-control" name="fteNumberReleasePhase2" id="fteNumberReleasePhase2" type="text">
+																			<button type = "button" class = "adjust-btn"id = "minus-3">																				
+																					<span>-</span>																				
+																			</button>
+																			<button type = "button" class = "adjust-btn" id = "plus-3">
+																					<span>+</span>
+																			</button>
 																		</div>
 																	</div>
 																	<!--/span-->
@@ -442,6 +460,12 @@
 																			<label lang="en" class="control-label">Number of FTEs to Cost <i class="fa fa-info-circle tooltips font-green" data-original-title="Provide the number of FTEs to cost per quarter"></i></label>
 																			<label lang="fr" class="control-label">Nombre d'ETP à dépenser <i class="fa fa-info-circle tooltips font-green" data-original-title="Veuillez indiquer le nombre d'ETP à dépenser par trimestre"></i></label>
 																			<input class="form-control" name="fteNumberCostPhase3" id="fteNumberCostPhase3" type="text">
+																			<button type = "button" class = "adjust-btn" id = "minus-4">																				
+																					<span>-</span>																				
+																			</button>
+																			<button type = "button" class = "adjust-btn" id = "plus-4">
+																					<span>+</span>
+																			</button>
 																		</div>
 																	</div>
 																	<!--/span-->
@@ -461,6 +485,12 @@
 																			<label lang="en" class="control-label">Number of FTEs to Release <i class="fa fa-info-circle tooltips font-green" data-original-title="Provide the number of FTE to release per quarter"></i></label>
 																			<label lang="fr" class="control-label">Nombre d'ETP à libérer <i class="fa fa-info-circle tooltips font-green" data-original-title="Veuillez indiquer le nombre d'ETP à libérer par trimestre"></i></label>
 																			<input class="form-control" name="fteNumberReleasePhase3" id="fteNumberReleasePhase3" type="text">
+																			<button type = "button" class = "adjust-btn" id = "minus-5">																				
+																					<span>-</span>																				
+																			</button>
+																			<button type = "button" class = "adjust-btn" id = "plus-5">
+																					<span>+</span>
+																			</button>
 																		</div>
 																	</div>
 																	<!--/span-->
@@ -1684,27 +1714,26 @@
 		<script src="../../assets/layout/scripts/quick-nav.min.js" type="text/javascript"></script>
 		<!-- END THEME LAYOUT SCRIPTS -->
 		<script>
+			let projects = JSON.parse(window.localStorage.getItem("projects"));
+			let current_project = window.localStorage.getItem("current_project");
+			var step = 0.01,
+				from = [0,0,0,0,0];
 			jQuery(document).ready(function() {
 				if (window.localStorage.getItem("current_project") == null) {
 					window.location.href = "/FRST";
 				}
-
 				if (window.localStorage.getItem("visual_project1") == null) {
 					window.location.href = "/FRST";
 				}
-
 				if (window.localStorage.getItem("visual_project2") == null) {
 					window.location.href = "/FRST";
 				}
-
 				if (window.localStorage.getItem("projects") == null) {
 					window.location.href = "/FRST";
 				}
-
 				if (Cookies.get("lang") == null) {
 					window.location.href = "/FRST";
 				}
-
 				if (Cookies.get("lang") === "en") {
 					$("[lang='fr']").attr("style", "display:none !important");
 					$("#newTitle").attr("placeholder", "Rename the project with a maximum of 20 characters");
@@ -1712,7 +1741,6 @@
 					$("[lang='en']").attr("style", "display:none !important");
 					$("#newTitle").attr("placeholder", "Renommez le projet au maximum 20 caractères");
 				}
-
 				$("#switchLang").click(function() {
 					if (Cookies.get("lang") === "en") {
 						$("[lang='fr']").attr("style", "display");
@@ -1726,91 +1754,143 @@
 						$("#newTitle").attr("placeholder", "Rename the project with a maximum of 20 characters");
 					}
 				});
-
 				$("#editProject").draggable({
 					handle: ".modal-header"
 				});
-
 				$("#quaterNumberPhase1").ionRangeSlider({
 					min: 1,
 					max: 8
 				});
-
 				$("#quaterNumberPhase2").ionRangeSlider({
 					min: 1,
 					max: 8
 				});
-
 				$("#quaterNumberPhase3").ionRangeSlider({
 					min: 1,
 					max: 8
 				});
-
 				$("#fteNumberCostPhase1").ionRangeSlider({
 					min: 0,
-					max: 30
+					max: 30,
+					step: 0.01,
+					from: from[0],
+					onFinish: function (data) {
+						from[0] = data.from;
+					}
 				});
-
 				$("#fteNumberCostPhase2").ionRangeSlider({
 					min: 0,
-					max: 30
+					max: 30,
+					step: 0.01,
+					from: from[1],
+					onFinish: function (data) {
+						from[1] = data.from;
+					}
 				});
-
 				$("#fteNumberCostPhase3").ionRangeSlider({
 					min: 0,
-					max: 30
+					max: 30,
+					step: 0.01,
+					from: from[3],
+					onFinish: function (data) {
+						from[3] = data.from;
+					}
 				});
-
 				$("#operatingMoneyCostPhase1").ionRangeSlider({
 					min: 0,
 					max: 1000000,
 					step: 1000
 				});
-
 				$("#operatingMoneyCostPhase2").ionRangeSlider({
 					min: 0,
 					max: 1000000,
 					step: 1000
 				});
-
 				$("#operatingMoneyCostPhase3").ionRangeSlider({
 					min: 0,
 					max: 1000000,
 					step: 1000
 				});
-
 				$("#fteNumberReleasePhase2").ionRangeSlider({
 					min: 0,
-					max: 30
+					max: 30,
+					step: 0.01,
+					from: from[2],
+					onFinish: function (data) {
+						from[2] = data.from;
+					}
 				});
-
 				$("#fteNumberReleasePhase3").ionRangeSlider({
 					min: 0,
-					max: 30
+					max: 30,
+					step: 0.01,
+					from: from[4],
+					onFinish: function (data) {
+						from[4] = data.from;
+					}
 				});
-
 				$("#operatingMoneyReleasePhase2").ionRangeSlider({
 					min: 0,
 					max: 1000000,
 					step: 1000
 				});
-
 				$("#operatingMoneyReleasePhase3").ionRangeSlider({
 					min: 0,
 					max: 1000000,
 					step: 1000
 				});
-
+				from[0] = Number(projects[current_project].costRelease.fteNumberCostPhase1)
+				from[1] = Number(projects[current_project].costRelease.fteNumberCostPhase2)
+				from[2] = Number(projects[current_project].costRelease.fteNumberReleasePhase2)
+				from[3] = Number(projects[current_project].costRelease.fteNumberCostPhase3)
+				from[4] = Number(projects[current_project].costRelease.fteNumberReleasePhase3)
 				Projects.loadProjects();
 				Projects.setupCurrentProject();
-
 				Projects.addProject();
 				Projects.selectProject();
-
 				Projects.showProjectCharacteristics();
+				FormProject.init();								
+				$("#plus-1").on('mousedown',function () {
+					from[0] = Projects.updateRange(1, from[0], $("#fteNumberCostPhase1"));
+				});
 
-				FormProject.init();
+				$("#minus-1").on('mousedown', function () {
+					from[0] = Projects.updateRange(-1, from[0], $("#fteNumberCostPhase1"));
+				});
+				
+				$("#plus-2").on('mousedown',function () {
+					from[1] = Projects.updateRange(1, from[1], $("#fteNumberCostPhase2"));
+				});
+
+				$("#minus-2").on('mousedown', function () {
+					from[1] = Projects.updateRange(-1, from[1], $("#fteNumberCostPhase2"));
+				});
+				
+				$("#plus-3").on('mousedown',function () {
+					from[2] = Projects.updateRange(1, from[2], $("#fteNumberReleasePhase2"));
+				});
+
+				$("#minus-3").on('mousedown', function () {
+					from[2] = Projects.updateRange(-1, from[2], $("#fteNumberReleasePhase2"));
+				});
+				
+				$("#plus-4").on('mousedown',function () {
+					from[3] = Projects.updateRange(1, from[3], $("#fteNumberCostPhase3"));
+				});
+
+				$("#minus-4").on('mousedown', function () {
+					from[3] = Projects.updateRange(-1, from[3], $("#fteNumberCostPhase3"));
+				});
+				
+				$("#plus-5").on('mousedown',function () {
+					from[4] = Projects.updateRange(1, from[4], $("#fteNumberReleasePhase3"));
+				});
+
+				$("#minus-5").on('mousedown', function () {
+					from[4] = Projects.updateRange(-1, from[4], $("#fteNumberReleasePhase3"));
+				});
 			});
+				
 		</script>
 	</body>
 </html>
