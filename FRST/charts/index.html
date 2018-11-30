@@ -17,6 +17,7 @@
     <meta property="og:description" content="Functional Realignment Scenario Tool: a scenario building tool to support resource allocation decision-making with respect to planned initiatives" />
     <meta property="og:url" content="//irmmodelling.github.io/FRST/" />
     <title>FRST | Charts</title>
+    <link rel="icon" type="image/png" href="../../assets/layout/img/favicon.PNG">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -40,23 +41,23 @@
 </head>
 <!-- END HEAD -->
 
-<body class="page-header-fixed page-footer-fixed page-sidebar-closed-hide-logo page-content-white">
+<body class="page-header-fixed page-footer-fixed  page-content-white">
     <div class="page-wrapper">
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
             <!-- BEGIN HEADER INNER -->
             <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
-                <div class="page-logo">
+                <div class="charts page-logo">
+                  <div class="menu-toggler sidebar-toggler" id="toggle" clicked = "true">
+                      <span></span>
+                  </div>
                     <a href="/FRST">
                         <img src="../../assets/layout/img/logo.png" alt="logo" class="logo-default" /> </a>
-                    <div class="menu-toggler sidebar-toggler">
-                        <span></span>
-                    </div>
                 </div>
                 <!-- END LOGO -->
                 <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                <a  class="menu-toggler charts responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
                     <span></span>
                 </a>
                 <!-- END RESPONSIVE MENU TOGGLER -->
@@ -83,6 +84,42 @@
                     </ul>
                 </div>
                 <!-- END LANGUAGE BAR -->
+                <!-- BEGIN PAGE LINKS -->
+                <div class="charts page-links">
+                  <ul class="nav navbar-nav">
+                     <li>
+                        <a href="/FRST/about">
+                        <i class="icon-info navText"></i>
+                        <span lang="en" class="title navText">About</span>
+                        <span lang="fr" class="title navText">À propos</span>
+                        </a>
+                     </li>
+                     <li class="active">
+                       <a href="/FRST/charts" class="nav-link nav-toggle">
+                       <i class="icon-bar-chart navText"></i>
+                       <span lang="en" class="title navText">Charts</span>
+                       <span lang="fr" class="title navText">Graphiques</span>
+                       </a>
+                     </li>
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="icon-briefcase navText"></i>
+                        <span lang="en" class="title navText">Projects</span>
+                        <span lang="fr" class="title navText">Projets</span>
+                        <i class="fa fa-angle-down navArrow"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                           <li class="nav-item project" name="newProject">
+                              <a href="javascript:;" class="nav-link" name="newProject">
+                              <span lang="en" class="title">New Project</span>
+                              <span lang="fr" class="title">Nouveau projet</span>
+                              </a>
+                           </li>
+                        </ul>
+                     </li>
+                   </ul>
+               </div>
+                <!-- END PAGE LINKS -->
             </div>
             <!-- END HEADER INNER -->
         </div>
@@ -114,43 +151,42 @@
                             </div>
                         </li>
                         <!-- END SIDEBAR TOGGLER BUTTON -->
-                        <li class="nav-item">
-                            <a href="/FRST/about" class="nav-link nav-toggle">
-                                <i class="icon-info"></i>
-                                <span lang="en" class="title">About</span>
-                                <span lang="fr" class="title">À propos</span>
-                            </a>
+                        <li class="charts nav-item">
+                           <a href="../about">
+                           <i class="icon-info "></i>
+                           <span lang="en" class="title ">About</span>
+                           <span lang="fr" class="title ">À propos</span>
+                           </a>
                         </li>
-                        <li class="nav-item" name="Projects">
-                            <a href="javascript:;" class="nav-link nav-toggle" name="Projects">
-                                <i class="icon-briefcase"></i>
-                                <span lang="en" class="title">Projects</span>
-                                <span lang="fr" class="title">Projets</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item" name="newProject">
-                                    <a href="javascript:;" class="nav-link" name="newProject">
-                                        <span lang="en" class="title">New Project</span>
-                                        <span lang="fr" class="title">Nouveau projet</span>
-                                    </a>
-                                </li>
-                            </ul>
+                        <li class="charts nav-item active">
+                           <a href="/FRST/charts" class="nav-link nav-toggle">
+                           <i class="icon-bar-chart"></i>
+                           <span lang="en" class="title">Charts</span>
+                           <span lang="fr" class="title">Graphiques</span>
+                           </a>
+                        </li>
+                        <li class="charts nav-item">
+                           <a href="javascript:;" class="nav-link nav-toggle" name="Projects">
+                           <i class="icon-briefcase"></i>
+                           <span lang="en" class="title">Projects</span>
+                           <span lang="fr" class="title">Projets</span>
+                           <span class="arrow"></span>
+                           </a>
+                           <ul class="sub-menu">
+                              <li class="nav-item" name="newProject">
+                                 <a href="javascript:;" class="nav-link" name="newProject">
+                                 <span lang="en" class="title">New Project</span>
+                                 <span lang="fr" class="title">Nouveau projet</span>
+                                 </a>
+                              </li>
+                           </ul>
                         </li>
                         <li class="nav-item active">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-bar-chart"></i>
-                                <span lang="en" class="title">Charts</span>
-                                <span lang="fr" class="title">Graphiques</span>
-                                <span class="arrow open"></span>
-                                <span class="selected"></span>
+                            <a href="javascript:;" class="nav-link">
+                              <span lang="en">Available Charts</span>
+                              <span lang="fr">Graphiques Disponibles</span>
                             </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item items-title">
-                                    <label id="chart-title">
-                                        <span lang="en">Available Charts</span>
-                                        <span lang="fr">Graphiques Disponibles</span>
-                                    </label>
+                            <ul class="charts sub-menu">
                             </ul>
                         </li>
                     </ul>
@@ -162,7 +198,7 @@
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
-                <div class="page-content">
+                <div class="page-content charts">
                     <!-- BEGIN PAGE HEADER-->
                     <!-- BEGIN PAGE TITLE-->
                     <h1 class="page-title" style="margin: 5px 0 25px 0;">
@@ -176,6 +212,24 @@
                     <!-- END PAGE TITLE-->
                     <!-- END PAGE HEADER-->
                     <!-- BEGIN : CHARTS -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light portlet-fit bordered">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="icon-layers font-green"></i>
+                                        <span lang="en" class="caption-subject font-green bold uppercase">Minimum & Maximum Benefit</span>
+                                        <span lang="fr" class="caption-subject font-green bold uppercase">Minimale et Maximal Bénéfice</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body" style="height:500px;">
+                                    <canvas name="minMaxBenefitChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="portlet light portlet-fit bordered">
@@ -183,16 +237,14 @@
                                     <div class="caption">
                                         <i class="icon-layers font-green"></i>
                                         <span lang="en" class="caption-subject font-green bold uppercase">Cost & Benefit</span>
-                                        <span lang="fr" class="caption-subject font-green bold uppercase">Coût et bénéfice</span>
+                                        <span lang="fr" class="caption-subject font-green bold uppercase">Coût et Bénéfice</span>
                                     </div>
                                 </div>
                                 <div class="portlet-body" style="height:500px;margin-top:70px">
                                     <div id="costReleaseValues" style="position:absolute; width:fit-content; top:68px; left:19px; z-inden:1" >
                                         <ul style="margin:0 0 0 0" class="nav nav-tabs">
-
                                         </ul>
                                         <div class="tab-content" style="border-left: 1px solid #ddd; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; background-color: white">
-
                                         </div>
                                     </div>
                                     <canvas name="costReleaseChart"></canvas>
@@ -207,7 +259,7 @@
                                     <div class="caption">
                                         <i class="icon-layers font-green"></i>
                                         <span lang="en" class="caption-subject font-green bold uppercase">Complexity & Risk</span>
-                                        <span lang="fr" class="caption-subject font-green bold uppercase">Complexité et risque</span>
+                                        <span lang="fr" class="caption-subject font-green bold uppercase">Complexité et Risque</span>
                                     </div>
                                 </div>
                                 <div class="portlet-body" style="height:500px;">
@@ -265,6 +317,7 @@
     <script src="../../assets/layout/scripts/demo.min.js" type="text/javascript"></script>
     <script src="../../assets/layout/scripts/quick-sidebar.min.js" type="text/javascript"></script>
     <script src="../../assets/layout/scripts/quick-nav.min.js" type="text/javascript"></script>
+    <script src="../../assets/global/scripts/main.js" type="text/javascript"></script>
     <!-- END THEME LAYOUT SCRIPTS -->
     <script>
         jQuery(document).ready(function() {
@@ -288,24 +341,9 @@
                 window.location.href = "/FRST";
             }
 
-            if (Cookies.get("lang") === "en") {
-                $("[lang='fr']").attr("style", "display:none !important");
-            } else {
-                $("[lang='en']").attr("style", "display:none !important");
-            }
-
-            $("#switchLang").click(function() {
-                if (Cookies.get("lang") === "en") {
-                    $("[lang='fr']").attr("style", "display");
-                    $("[lang='en']").attr("style", "display:none !important");
-                    Cookies.set("lang", "fr");
-                } else {
-                    $("[lang='en']").attr("style", "display");
-                    $("[lang='fr']").attr("style", "display:none !important");
-                    Cookies.set("lang", "en");
-                }
-            });
-
+            setMenuToggleStatus();
+            setLang();
+            changeLang();
             Projects.loadProjects();
             Projects.addProject();
             Projects.selectProject();
