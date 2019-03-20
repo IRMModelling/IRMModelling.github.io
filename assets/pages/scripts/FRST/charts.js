@@ -76,9 +76,11 @@ let Charts = function() {
                     enabled: true,
                     callbacks: {
                         title: function(tooltipItems, data) {
-                            let tooltipItem = tooltipItems[0];
-                            title = "Quater " + data.labels[tooltipItem.index];
-                            return title;
+                            if (Cookies.get("lang") === 'en'){
+                              return "Quarter " + tooltipItems[0].xLabel;
+                            } else{
+                              return "Trimestre " + tooltipItems[0].xLabel;
+                            }
                         },
 
                         label: function(tooltipItem, data) {
@@ -234,7 +236,7 @@ let Charts = function() {
             },
         }),
 
-        costPerQuarterChart: new Chart($("canvas[name='costPerQuarterChart']"), {
+        benefitPerQuarterChart: new Chart($("canvas[name='benefitPerQuarterChart']"), {
             // set type to be line chart
             type: 'line',
 
@@ -287,13 +289,15 @@ let Charts = function() {
                 tooltips: {
                     // enable tooltipItems
                     enabled: true,
-                    // show all values at any given index
-                    mode: "index",
-                    intersect: false,
                     position: "nearest",
                     callbacks: {
                         title: function(tooltipItem, data) {
+                          if (Cookies.get("lang") === 'en'){
                             return "Quarter " + tooltipItem[0].xLabel;
+                          } else{
+                            return "Trimestre " + tooltipItem[0].xLabel;
+                          }
+
                         },
                         label: function(tooltipItem, data) {
                             // store current dataset
@@ -374,9 +378,11 @@ let Charts = function() {
                     enabled: true,
                     callbacks: {
                         title: function(tooltipItems, data) {
-                            let tooltipItem = tooltipItems[0];
-                            title = "Quater " + data.labels[tooltipItem.index];
-                            return title;
+                          if (Cookies.get("lang") === 'en'){
+                            return "Quarter " + tooltipItems[0].xLabel;
+                          } else{
+                            return "Trimestre " + tooltipItems[0].xLabel;
+                          }
                         },
 
                         label: function(tooltipItem, data) {
@@ -532,7 +538,7 @@ let Charts = function() {
             },
         }),
 
-        costPerQuarterModal: new Chart($("canvas[name='costPerQuarterModal']"), {
+        benefitPerQuarterModal: new Chart($("canvas[name='benefitPerQuarterModal']"), {
             // set type to be line chart
             type: 'line',
 
@@ -585,13 +591,14 @@ let Charts = function() {
                 tooltips: {
                     // enable tooltipItems
                     enabled: true,
-                    // show all values at any given index
-                    mode: "index",
-                    intersect: false,
                     position: "nearest",
                     callbacks: {
                         title: function(tooltipItem, data) {
+                          if (Cookies.get("lang") === 'en'){
                             return "Quarter " + tooltipItem[0].xLabel;
+                          } else{
+                            return "Trimestre " + tooltipItem[0].xLabel;
+                          }
                         },
                         label: function(tooltipItem, data) {
                             // store current dataset
@@ -629,8 +636,9 @@ let Charts = function() {
             Charts.loadChartsDropdown();
             // obtain projects array
             let projects = JSON.parse(window.localStorage.getItem("projects"));
-            Charts.initalizeCharts(projects);
+            Charts.initializeCharts(projects);
             Charts.updateCharts(projects);
+            Charts.changeLanguage(Cookies.get("lang"))
 
         },
 
@@ -665,7 +673,7 @@ let Charts = function() {
         */
         generateData: function(project, projectNumber) {
             // degfine some variables for later use
-            let projectTotalQuaterNumber = 0;
+            let projectTotalQuarterNumber = 0;
             let projectCostData = [];
             let maxReleaseData = [];
             let minReleaseData = [];
@@ -675,9 +683,9 @@ let Charts = function() {
             let projectUncertainty = 0;
 
             // first obtain the amount of quarters for the project
-            let projectQuaterNumberPhase1 = parseInt(project.costRelease.quaterNumberPhase1);
-            let projectQuaterNumberPhase2 = parseInt(project.costRelease.quaterNumberPhase2);
-            let projectQuaterNumberPhase3 = parseInt(project.costRelease.quaterNumberPhase3);
+            let projectQuarterNumberPhase1 = parseInt(project.costRelease.quaterNumberPhase1);
+            let projectQuarterNumberPhase2 = parseInt(project.costRelease.quaterNumberPhase2);
+            let projectQuarterNumberPhase3 = parseInt(project.costRelease.quaterNumberPhase3);
 
             // obtain all the start dates
             let projectStartDatePhase1 = new Date(project.costRelease.startDatePhase1);
@@ -761,7 +769,7 @@ let Charts = function() {
             let minReleasePhase1 = 0;
 
             // loop for each quarter in the phase
-            for (let i = 1; i <= projectQuaterNumberPhase1; i++) {
+            for (let i = 1; i <= projectQuarterNumberPhase1; i++) {
                 // push the cost, release and risk data into the data arrays for the project for each quarter in the current phase
                 projectCostData.push(projectCostPhase1);
                 maxReleaseData.push(maxReleasePhase1);
@@ -770,7 +778,7 @@ let Charts = function() {
 
             // calculate the gap between phase 1 and phase 2
             let projectDifferenceP1P2 = parseInt((projectStartDatePhase2.getTime() -
-                    (projectStartDatePhase1.getTime() + projectQuaterNumberPhase1 * (1000 * 60 * 60 * 24 * 30 * 3))) /
+                    (projectStartDatePhase1.getTime() + projectQuarterNumberPhase1 * (1000 * 60 * 60 * 24 * 30 * 3))) /
                 (1000 * 60 * 60 * 24 * 30 * 3));
 
             for (let i = 0; i < projectDifferenceP1P2; i++) {
@@ -790,7 +798,7 @@ let Charts = function() {
             let minReleasePhase2 = (maxReleasePhase2 - (projectUncertainty / 170 * maxReleasePhase2));
 
             // loop for every quarter in the phase
-            for (let i = 1; i <= projectQuaterNumberPhase2; i++) {
+            for (let i = 1; i <= projectQuarterNumberPhase2; i++) {
                 // push the cost, release and uncertainty for every quarter
                 projectCostData.push(projectCostPhase2);
                 maxReleaseData.push(maxReleasePhase2);
@@ -799,7 +807,7 @@ let Charts = function() {
 
             // calculate the gap between phase2 and phase 3
             let projectDifferenceP2P3 = parseInt((projectStartDatePhase3.getTime() -
-                    (projectStartDatePhase2.getTime() + projectQuaterNumberPhase2 * (1000 * 60 * 60 * 24 * 30 * 3))) /
+                    (projectStartDatePhase2.getTime() + projectQuarterNumberPhase2 * (1000 * 60 * 60 * 24 * 30 * 3))) /
                 (1000 * 60 * 60 * 24 * 30 * 3));
 
             // push blank info in for each quarter difference
@@ -816,18 +824,36 @@ let Charts = function() {
             let minReleasePhase3 = (maxReleasePhase3 - (projectUncertainty / 170 * maxReleasePhase3));
 
             // loop for each quarter and push data into the data arrays for each
-            for (let i = 1; i <= projectQuaterNumberPhase3; i++) {
+            for (let i = 1; i <= projectQuarterNumberPhase3; i++) {
                 projectCostData.push(projectCostPhase3);
                 maxReleaseData.push(maxReleasePhase3);
                 minReleaseData.push(minReleasePhase3);
             }
 
             // calculate the total amount of quarters including the gaps calculated
-            projectTotalQuaterNumber = projectQuaterNumberPhase1 + projectDifferenceP1P2 + projectQuaterNumberPhase2 + projectDifferenceP2P3 + projectQuaterNumberPhase3;
-
+            projectTotalQuarterNumber = projectQuarterNumberPhase1 + projectDifferenceP1P2 + projectQuarterNumberPhase2 + projectDifferenceP2P3 + projectQuarterNumberPhase3;
+            let costLabel = ''
+            let minReleaseLabel = ''
+            let maxReleaseLabel = ''
+            let riskLabel = ''
+            let riskTotal = ''
+            if(Cookies.get('lang') === 'en'){
+              costLabel = 'Cost of ';
+              minReleaseLabel = 'Minimum Benefit of ';
+              maxReleaseLabel = 'Minimum Benefit of ';
+              riskLabel = 'Uncertainty of ';
+              riskTotal = ', Total Score: ';
+            }else{
+              costLabel = 'Coût de ';
+              minReleaseLabel = 'Minimale Économie de ';
+              maxReleaseLabel = 'Maximal Économie de ';
+              riskLabel = 'Risque de ';
+              riskTotal = ', Score Total: ';
+            }
+            console.log
             // generate a data object for project cost
             projectCost = {
-                label: "Cost of " + project.title,
+                label: costLabel + project.title,
                 // set the data array to be the final cost array generated
                 data: projectCostData,
                 // set bar colour
@@ -836,7 +862,7 @@ let Charts = function() {
 
             // generate a data object for the maxRelease
             maxRelease = {
-                label: "Max Release of " + project.title,
+                label: maxReleaseLabel + project.title,
                 // set the data of this chart to be max release array generated
                 data: maxReleaseData,
                 // the risk array becomes the risk for this chart
@@ -847,7 +873,7 @@ let Charts = function() {
 
             // create a data object for the minRelease
             minRelease = {
-                label: "Min Release of " + project.title,
+                label: minReleaseLabel + project.title,
                 // set the data to the be the min release risk generated
                 data: minReleaseData,
                 // set the bar colour
@@ -870,10 +896,10 @@ let Charts = function() {
                 // set the background and border colour for the radar
                 backgroundColor: Charts.riskFillColour[projectNumber],
                 borderColor: Charts.riskBorderColour[projectNumber],
-                label: "Uncertainty of " + project.title + ", Total Score: " + projectUncertainty
+                label: riskLabel + project.title + riskTotal + projectUncertainty
             };
 
-            return [projectCost, maxRelease, minRelease, projectFactors, projectTotalQuaterNumber];
+            return [projectCost, maxRelease, minRelease, projectFactors, projectTotalQuarterNumber];
 
         },
 
@@ -949,7 +975,7 @@ let Charts = function() {
             maxRelease = data[1];
             minRelease - data[2];
             projectFactors = data[3];
-            projectTotalQuaterNumber = (data[4]);
+            projectTotalQuarterNumber = (data[4]);
 
             // calculate totals and benefits
             projectTotalData = Charts.calculateTotals(projectCost.data, maxRelease.data, minRelease.data);
@@ -997,11 +1023,11 @@ let Charts = function() {
             let costRelease = Charts.costReleaseChart,
                 complexityRisk = Charts.complexityRiskChart,
                 minMaxBenefit = Charts.minMaxBenefitChart,
-                costPerQuarter = Charts.costPerQuarterChart,
+                benefitPerQuarter = Charts.benefitPerQuarterChart,
                 costReleaseModal = Charts.costReleaseModal,
                 complexityRiskModal = Charts.complexityRiskModal,
                 minMaxBenefitModal = Charts.minMaxBenefitModal,
-                costPerQuarterModal = Charts.costPerQuarterModal;
+                benefitPerQuarterModal = Charts.benefitPerQuarterModal;
 
             // initialize the costRelease and complexityRisk datasets
             // this is so there aren't duplicate bars and to account
@@ -1009,17 +1035,17 @@ let Charts = function() {
             costRelease.data.datasets = [];
             complexityRisk.data.datasets = [];
             minMaxBenefit.data.datasets = [];
-            costPerQuarter.data.datasets = [];
+            benefitPerQuarter.data.datasets = [];
             costReleaseModal.data.datasets = [];
             complexityRiskModal.data.datasets = [];
             minMaxBenefitModal.data.datasets = [];
-            costPerQuarterModal.data.datasets = [];
+            benefitPerQuarterModal.data.datasets = [];
             costRelease.data.labels = [];
             minMaxBenefit.data.labels = [];
-            costPerQuarter.data.labels = [];
+            benefitPerQuarter.data.labels = [];
             costReleaseModal.data.labels = [];
             minMaxBenefitModal.data.labels = [];
-            costPerQuarterModal.data.labels = [];
+            benefitPerQuarterModal.data.labels = [];
 
             // delete all present tabs and data
             $(".tab-element").remove();
@@ -1081,10 +1107,10 @@ let Charts = function() {
                 Charts.displayMinMax(minMaxBenefitModal, projectData, checkedElements, projects);
 
                 // generate and display cost per quarter charts
-                Charts.displayCPQ(costPerQuarter, cr2Data, projectQuarters);
-                Charts.displayCPQ(costPerQuarterModal, cr2Data, projectQuarters);
+                Charts.displayBPQ(benefitPerQuarter, cr2Data, projectQuarters);
+                Charts.displayBPQ(benefitPerQuarterModal, cr2Data, projectQuarters);
 
-                charts = [costRelease, complexityRisk, minMaxBenefit, costPerQuarter, costReleaseModal, complexityRiskModal, minMaxBenefitModal, costPerQuarterModal];
+                charts = [costRelease, complexityRisk, minMaxBenefit, costReleaseModal, complexityRiskModal, minMaxBenefitModal, benefitPerQuarter, benefitPerQuarterModal];
                 Charts.updateAndRenderCharts(charts);
 
 
@@ -1094,7 +1120,7 @@ let Charts = function() {
                 costRelease.options.title.text = "Nothing to show, please select a project";
                 complexityRisk.options.title.text = "Nothing to show, please select a project";
                 minMaxBenefit.options.title.text = "Nothing to show, please select a project";
-                costPerQuarter.options.title.text = "Nothing to show, please select a project"
+                benefitPerQuarter.options.title.text = "Nothing to show, please select a project"
             }
 
         },
@@ -1137,10 +1163,10 @@ let Charts = function() {
         @param projectQuarters - an array consisting of the project quarter numbers
         */
 
-        displayCPQ: function(chart, cr2Data, projectQuarters) {
+        displayBPQ: function(chart, cr2Data, projectQuarters) {
             // generate cost Per quarter data and update charts
-            cpq = Charts.generateCPQ(cr2Data[0], cr2Data[2]);
-            chart.data.datasets = cpq;
+            bpqData = Charts.generateBPQ(cr2Data[0], cr2Data[2]);
+            chart.data.datasets = (bpqData);
             chart.data.labels = projectQuarters;
             chart.options.title.display = false;
         },
@@ -1160,13 +1186,13 @@ let Charts = function() {
             costRelease.data.datasets = cr2Data[0];
             comRisk.data.datasets = cr2Data[1];
 
-            // give title and labels to cost and release graph
+            // disable title for cost release
             costRelease.options.title.display = false;
 
             // push the labels to the chart
             costRelease.data.labels = projectQuarters;
 
-            // give title to complexity and risk graph
+            // disable title for complexity risk
             comRisk.options.title.display = false;
         },
 
@@ -1208,12 +1234,12 @@ let Charts = function() {
 
         },
 
-        /* This method initalizes the charts and the dropdown list on start up
+        /* This method initializes the charts and the dropdown list on start up
            to display the charts selected last time the page was loaded
 
            @param projects - the array of projects
         */
-        initalizeCharts: function(projects) {
+        initializeCharts: function(projects) {
             // obtain previously checked items and display the charts
             let checkedElements = JSON.parse(window.localStorage.getItem("checked"));
 
@@ -1244,6 +1270,77 @@ let Charts = function() {
                 $("[lang='en']").attr("style", "display:none !important");
 
             }
+
+        },
+
+        changeLanguage: function(currLang) {
+          // store all charts in variables
+          let costRelease = Charts.costReleaseChart,
+              complexityRisk = Charts.complexityRiskChart,
+              minMaxBenefit = Charts.minMaxBenefitChart,
+              benefitPerQuarter = Charts.benefitPerQuarterChart,
+              costReleaseModal = Charts.costReleaseModal,
+              complexityRiskModal = Charts.complexityRiskModal,
+              minMaxBenefitModal = Charts.minMaxBenefitModal,
+              benefitPerQuarterModal = Charts.benefitPerQuarterModal;
+
+          if (currLang === 'en'){
+            minMaxBenefit.options.scales.yAxes[0].scaleLabel.labelString = "Project Name"
+            minMaxBenefitModal.options.scales.yAxes[0].scaleLabel.labelString = "Project Name"
+            benefitPerQuarter.options.scales.xAxes[0].scaleLabel.labelString = "Quarter Number"
+            benefitPerQuarterModal.options.scales.xAxes[0].scaleLabel.labelString = "Quarter Number"
+            costRelease.options.scales.xAxes[0].scaleLabel.labelString = "Quarter Number"
+            costReleaseModal.options.scales.xAxes[0].scaleLabel.labelString = "Quarter Number"
+            complexityRisk.data.labels = [
+                "Project Characteristics",
+                "Strategic Management Risks",
+                "Procurement Risks",
+                "Human Resources Risks",
+                "Business Risks",
+                "Project Management Risks",
+                "Project Requirement Management"
+            ]
+            complexityRiskModal.data.labels = [
+                "Project Characteristics",
+                "Strategic Management Risks",
+                "Procurement Risks",
+                "Human Resources Risks",
+                "Business Risks",
+                "Project Management Risks",
+                "Project Requirement Management"
+            ]
+          }else{
+            minMaxBenefit.options.scales.yAxes[0].scaleLabel.labelString = "Nom du Projet"
+            minMaxBenefitModal.options.scales.yAxes[0].scaleLabel.labelString = "Nom du Projet"
+            benefitPerQuarter.options.scales.xAxes[0].scaleLabel.labelString = "Numéro du Trimestre"
+            benefitPerQuarterModal.options.scales.xAxes[0].scaleLabel.labelString = "Numéro du Trimestre"
+            costRelease.options.scales.xAxes[0].scaleLabel.labelString = "Numéro du Trimestre"
+            costReleaseModal.options.scales.xAxes[0].scaleLabel.labelString = "Numéro du Trimestre"
+            complexityRisk.data.labels = [
+                "Caractéristiques du Projet",
+                "Risques de Gestion Stratégique",
+                "Risques d'Approvisionnement",
+                "Risques de Ressources Humaines",
+                "Risques d'Entreprise",
+                "Risques de Gestion de Projet",
+                "Gestion du Projet Exigence"
+            ]
+            complexityRiskModal.data.labels = [
+                "Caractéristiques du Projet",
+                "Risques de Gestion Stratégique",
+                "Risques d'Approvisionnement",
+                "Risques de Ressources Humaines",
+                "Risques d'Entreprise",
+                "Risques de Gestion de Projet",
+                "Gestion du Projet Exigence"
+            ]
+          }
+          // reload the charts to update their labels
+          projects = JSON.parse(window.localStorage.getItem("projects"))
+          checked = JSON.parse(window.localStorage.getItem("checked"))
+          Charts.displayCharts(projects, checked)
+          // run set language to ensure no duplicate tags
+          Charts.setLanguage()
         },
 
         /* This function will display the Min and Max Benefit chart
@@ -1276,10 +1373,19 @@ let Charts = function() {
                 minBenefits.push(totals[3]);
 
             }
-
+            // set the label based on the current language
+            let maxLabel = ''
+            let minLabel = ''
+            if(Cookies.get('lang') === 'en'){
+              maxLabel = 'Maximum Benefit'
+              minLabel = 'Minimum Benefit'
+            }else{
+              maxLabel = 'Maximal Bénéfice'
+              minLabel = 'Minimale Bénéfice'
+            }
             // define datasets for minimum and maximum
             maxBen = {
-                label: "Maximum Benefit",
+                label: maxLabel,
                 // set the data array to be the maximum benefit array
                 data: maxBenefits,
                 // set bar colour
@@ -1287,13 +1393,12 @@ let Charts = function() {
             };
 
             minBen = {
-                label: "Minimum Benefit",
+                label: minLabel,
                 // set the data array to be the maximum benefit array
                 data: minBenefits,
                 // set bar colour
                 backgroundColor: Charts.releaseColours[2]
             };
-
             // return the data sets and the names array
             return [maxBen, minBen, names];
 
@@ -1362,59 +1467,91 @@ let Charts = function() {
 
         },
 
-        /* this method will generate the relative data for the cost per quarter chart*/
-        generateCPQ: function(costReleaseData, highestQuarters) {
+        /* this method will generate the relative data for the Benefit per quarter chart*/
+        generateBPQ: function(costReleaseData, highestQuarters) {
             // declare an array to store each datasets
-            let costData = [],
-                maxData = [],
-                minData = [];
-            // initialize the arrays to have all zeros
-            for (let i = 0; i < highestQuarters; i++) {
-                costData.unshift(0);
-                maxData.unshift(0);
-                minData.unshift(0);
-            }
-
+            let projectNames = []
+            let projectCosts = []
+            let projectMaxs = []
+            let projectMins = []
+            let chartData = []
             // loop through each project
             let numProjects = costReleaseData.length / 3;
             for (let i = 0; i < numProjects; i++) {
                 // store the individual arrays representing each projects cost max and min releases
-                let projectCost = costReleaseData[i * 3].data;
-                let projectMax = costReleaseData[i * 3 + 1].data;
-                let projectMin = costReleaseData[i * 3 + 2].data;
-                // loop through the each quarter of the project
-                for (j = 0; j < projectCost.length; j++) {
-                    // add the current value in the relative index to the data arrays
-                    costData[j] += projectCost[j];
-                    maxData[j] += projectMax[j];
-                    minData[j] += projectMin[j];
+                projectCosts.push(costReleaseData[i * 3].data);
+                projectMaxs.push(costReleaseData[i * 3 + 1].data);
+                projectMins.push(costReleaseData[i * 3 + 2].data);
+                name = costReleaseData[i*3].label.substring(8)
+                projectNames.push(name)
+            }
+
+            // define two data sets per project
+            // one for max and one for min ben per quarter
+            // calculate the data for each data set
+            // loop for the number of projects there are
+            for (let i = 0; i < numProjects; i++){
+              let maxData = []
+              let minData = []
+              // loop for every quarter in the current project
+              numQuarters = projectCosts[i].length
+              for (let j = 0; j < numQuarters; j++){
+                // check if we are currently at the first quarter
+                if (j == 0){
+                  // if it is the first quarter then simply calculate the benefit for the quarter
+                  maxBen = projectMaxs[i][j] - projectCosts[i][j]
+                  minBen = projectMins[i][j] - projectCosts[i][j]
+                  // append the benefits to the data
+                  maxData.push(maxBen)
+                  minData.push(minBen)
+
+                } else{
+                  // if it's not calculate the ben for the quarter and sum it with previous quarter
+                  maxBen = maxData[j-1] + projectMaxs[i][j] - projectCosts[i][j]
+                  minBen = minData[j-1] + projectMins[i][j] - projectCosts[i][j]
+                  // append the benefits to the data
+                  maxData.push(maxBen)
+                  minData.push(minBen)
+
                 }
-            }
-            // define the actual datasets for each line
-            let costSet = {
-                label: "Cost",
-                data: costData,
-                borderColor: Charts.costColours[2],
-                fill: false
-            }
 
-            let maxSet = {
-                label: "Maximum Release",
+              }
+              // define a max and min data set for each project
+              // set the label based on the current language
+              let maxLabel = ''
+              let minLabel = ''
+              if(Cookies.get('lang') === 'en'){
+                maxLabel = 'Maximum Benefit of '
+                minLabel = 'Minimum Benefit of '
+              }else{
+                maxLabel = 'Maximal Bénéfice de '
+                minLabel = 'Minimale Bénéfice de '
+              }
+              let maxDataSet = {
+                label: maxLabel + projectNames[i],
+                // set the data array to be the maximum benefit array
                 data: maxData,
-                borderColor: Charts.releaseColours[2],
+                // set bar colour
+                backgroundColor: Charts.costColours[i],
+                borderColor: Charts.costColours[i],
                 fill: false
-            }
+              }
 
-            let minSet = {
-                label: "Minimum Release",
+              let minDataSet = {
+                label: minLabel + projectNames[i],
+                // set the data array to be the maximum benefit array
                 data: minData,
-                borderColor: Charts.minReleaseColours[2],
+                // set bar colour
+                backgroundColor: Charts.releaseColours[i],
+                borderColor: Charts.releaseColours[i],
                 fill: false
+              }
+
+              // add the datasets to the chart data
+              chartData.push(maxDataSet)
+              chartData.push(minDataSet)
             }
-
-            // return the created Datasets
-            return ([costSet, minSet, maxSet]);
-
+            return(chartData)
         }
 
     };

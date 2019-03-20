@@ -32,7 +32,10 @@ function changeLang(){
           Cookies.set("lang", "en");
           $("#newTitle").attr("placeholder", "Rename the project with a maximum of 20 characters");
       }
+      // call charts language change method
+      Charts.changeLanguage(Cookies.get("lang"))
   });
+
 }
 
 
@@ -63,4 +66,12 @@ function loadProjectsDropDown() {
     }
     // insert text into the DOM
     $("li[name='newProject']").before(text);
+}
+
+/* set navigation position for home dropdown */
+function changeArrow(){
+  $(".about-panel .navArrow").click(function(){
+    $(this).toggleClass("fa-angle-down");
+    $(this).toggleClass("fa-angle-left");
+  })
 }
